@@ -1,0 +1,28 @@
+body{
+background-color: brown;
+}
+#tweetMessageSect{
+width: 580px;
+border-radius: 15px 15px 15px 15px;
+border-top-left-radius:15px;
+border-top-right-radius:15px;
+text-align:center;
+margin: auto;
+background-color: white;
+text-align: left;
+padding: 10px;
+border-bottom: thin dotted brown;
+}
+.tweet{
+border-bottom: thin dotted brown;
+padding:10px 0px;
+}
+#appName{
+text-align:center;
+margin: 30px auto;
+color: white;
+font-family: "Courier New";
+}
+.tweetTime{
+text-align: right;
+}

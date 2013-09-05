@@ -1,27 +1,71 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8">
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <link rel="stylesheet" type="text/css" href="index.css"></link>
   </head>
   <body>
     <script>
 
       $(document).ready(function(){
-        var $body = $('body');
-        $body.html('');
-
-        var index = streams.home.length - 1;
-        while(index >= 0){
-          var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
-          $tweet.appendTo($body);
-          index -= 1;
-        }
-
+        //var $body = $('body');
+        //$body.html('');
+        var weekday=new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
+        var monthname=new Array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
+        
+        // Show the user new tweets on page load
+        DisplayTweets();
+        console.log(streams.users);
+        // Then refresh the tweets every 5 seconds
+        window.setInterval(DisplayTweets,5000)
+        
+        function DisplayTweets(){
+            var counter = 0;
+        	var index = streams.home.length - 1;
+        	// first remove existing messages
+            $('.tweet').remove();
+            
+        	while(counter < 10 ){
+          		var tweet = streams.home[index];
+        		// create tweet container
+          		var $tweet = $('<div class="tweet"></div>');
+          		var $tweetTime = $('<div class="tweetTime"></div>');
+          		// set up time info
+          		var displayedTime = '';
+          		var timeInfo = tweet.created_at; 
+          		var year = timeInfo.getFullYear();
+          		var month = timeInfo.getMonth();
+          		var date = timeInfo.getDate();
+          		var hours = timeInfo.getHours();
+          		var minutes = ('0' + timeInfo.getMinutes()).slice(-2);
+          		var seconds = timeInfo.getSeconds();
+          		console.log(timeInfo.toString())
+          		displayedTime = "[" + hours + ":" + minutes + ":" + seconds + "], " 
+          		                + monthname[month] + " " + date + ", " + year;
+          		                + ", " + year;
+                $tweet.text('@' + tweet.user + ': ' + tweet.message);
+                $tweetTime.text(displayedTime);
+                $tweet.append($tweetTime);
+  		        //$tweet.text('@' + tweet.user + ': ' + tweet.message + '  ' + displayedTime);
+        	    //$tweet.appendTo($body);
+        	    $('#tweetMessageSect').append($tweet);
+        	    //$('.messages').append(message);
+          		index -= 1;
+          		counter++;
+        	};
+        };
       });
-
+      
     </script>
+    
+    <div id="appName">
+		<h1>Twittler</h1>
+    </div>
+    
+    <div id="tweetMessageSect">
+	</div>
+	
   </body>
 </html>
