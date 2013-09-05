@@ -17,7 +17,6 @@
         
         // Show the user new tweets on page load
         DisplayTweets();
-        console.log(streams.users);
         // Then refresh the tweets every 5 seconds
         window.setInterval(DisplayTweets,5000)
         
@@ -40,18 +39,17 @@
           		var date = timeInfo.getDate();
           		var hours = timeInfo.getHours();
           		var minutes = ('0' + timeInfo.getMinutes()).slice(-2);
-          		var seconds = timeInfo.getSeconds();
+          		var seconds = ('0' + timeInfo.getSeconds()).slice(-2);
           		console.log(timeInfo.toString())
           		displayedTime = "[" + hours + ":" + minutes + ":" + seconds + "], " 
           		                + monthname[month] + " " + date + ", " + year;
           		                + ", " + year;
                 $tweet.text('@' + tweet.user + ': ' + tweet.message);
                 $tweetTime.text(displayedTime);
+                
+                // append tweet message and time info
                 $tweet.append($tweetTime);
-  		        //$tweet.text('@' + tweet.user + ': ' + tweet.message + '  ' + displayedTime);
-        	    //$tweet.appendTo($body);
         	    $('#tweetMessageSect').append($tweet);
-        	    //$('.messages').append(message);
           		index -= 1;
           		counter++;
         	};
