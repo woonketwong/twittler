@@ -15,6 +15,8 @@
         var weekday=new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
         var monthname=new Array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
         
+        // hide user timeline section at the beggining
+        $('#tweetMessageTimeLineSect').hide();
         // Show the user new tweets on page load
         DisplayTweets();
         // Then refresh the tweets every 5 seconds
@@ -30,6 +32,7 @@
           		var tweet = streams.home[index];
         		// create tweet container
           		var $tweet = $('<div class="tweet"></div>');
+          		var $tweetUserName = $('<strong class="tweetUserName"></strong>');
           		var $tweetTime = $('<div class="tweetTime"></div>');
           		// set up time info
           		var displayedTime = '';
@@ -40,16 +43,80 @@
           		var hours = timeInfo.getHours();
           		var minutes = ('0' + timeInfo.getMinutes()).slice(-2);
           		var seconds = ('0' + timeInfo.getSeconds()).slice(-2);
-          		console.log(timeInfo.toString())
+          		var prevUserNameClicked = '';
+          		var userNameClicked = '';
+          		
           		displayedTime = "[" + hours + ":" + minutes + ":" + seconds + "], " 
           		                + monthname[month] + " " + date + ", " + year;
           		                + ", " + year;
-                $tweet.text('@' + tweet.user + ': ' + tweet.message);
+          		$tweetUserName.text(tweet.user);
+                //$tweet.text('@' + $tweetUserName.text + ': ' + tweet.message);
+                $tweet.text(': ' + tweet.message);
                 $tweetTime.text(displayedTime);
                 
                 // append tweet message and time info
                 $tweet.append($tweetTime);
+                $tweet.prepend($tweetUserName);
+                // register #tweetUserName for click event
+                $('.tweetUserName').unbind('click');
+                $('.tweetUserName').click(function() {
+                	userNameClicked = $(this).text();
+                	if (userNameClicked == prevUserNameClicked){ 
+          				$('#tweetMessageTimeLineSect').hide('fast');
+          				prevUserNameClicked = '';
+          			}
+          			else{
+          				prevUserNameClicked = userNameClicked;
+                		//DisplayUserTimeLine($(this).text());
+                		DisplayUserTimeLine(userNameClicked);
+          				$('#tweetMessageTimeLineSect').show('fast');
+          			}
+                });
         	    $('#tweetMessageSect').append($tweet);
+          		index -= 1;
+          		counter++;
+        	};
+        };
+        
+        function DisplayUserTimeLine(userName){
+            var counter = 0;
+            var streamLength = streams.users[userName].length;
+        	var index = streamLength-1;
+        	// first remove existing messages
+            $('.tweetTimeLine').remove();
+            $('.tweetUserNameTimeLine').remove();
+            
+        	while(counter < 10 && counter < streamLength ){
+          		var tweet = streams.users[userName][index];
+        		// create tweet container
+          		var $tweet = $('<div class="tweetTimeLine"></div>');
+          		var $tweetUserName = $('<div class="tweetUserNameTimeLine"></div>');
+          		var $tweetTime = $('<div class="tweetTime"></div>');
+          		// set up time info
+          		var displayedTime = '';
+          		var timeInfo = tweet.created_at; 
+          		var year = timeInfo.getFullYear();
+          		var month = timeInfo.getMonth();
+          		var date = timeInfo.getDate();
+          		var hours = timeInfo.getHours();
+          		var minutes = ('0' + timeInfo.getMinutes()).slice(-2);
+          		var seconds = ('0' + timeInfo.getSeconds()).slice(-2);
+          		
+          		displayedTime = "[" + hours + ":" + minutes + ":" + seconds + "], " 
+          		                + monthname[month] + " " + date + ", " + year;
+          		                + ", " + year;
+          		$tweetUserName.text(tweet.user);
+                //$tweet.text('@' + $tweetUserName.text + ': ' + tweet.message);
+                $tweet.text(tweet.message);
+                $tweetTime.text(displayedTime);
+                
+                // append tweet message and time info
+                $tweet.append($tweetTime);
+                //$tweet.prepend($tweetUserName);
+                if (counter == 0){
+                	$('#tweetMessageTimeLineSect').append($tweetUserName);
+                }
+        	    $('#tweetMessageTimeLineSect').append($tweet);
           		index -= 1;
           		counter++;
         	};
@@ -63,6 +130,9 @@
     </div>
     
     <div id="tweetMessageSect">
+	</div>
+	
+    <div id="tweetMessageTimeLineSect">
 	</div>
 	
   </body>

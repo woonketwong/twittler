@@ -2,12 +2,13 @@ body{
 background-color: brown;
 }
 #tweetMessageSect{
+float: left;
 width: 580px;
 border-radius: 15px 15px 15px 15px;
 border-top-left-radius:15px;
 border-top-right-radius:15px;
 text-align:center;
-margin: auto;
+margin: 0px 0px 0px 30%;
 background-color: white;
 text-align: left;
 padding: 10px;
@@ -25,4 +26,32 @@ font-family: "Courier New";
 }
 .tweetTime{
 text-align: right;
+}
+.tweetUserName:hover{
+color: brown;
+cursor: pointer;
+}
+#tweetMessageTimeLineSect{
+float: left;
+width: 300px;
+border-radius: 15px 15px 15px 15px;
+border-top-left-radius:15px;
+border-top-right-radius:15px;
+text-align:center;
+margin: 0px 0px 0px 30px;
+background-color: white;
+text-align: left;
+padding: 10px;
+border-bottom: thin dotted brown;
+}
+.tweetTimeLine{
+border-bottom: thin dotted brown;
+padding:10px 0px;
+}
+.tweetUserNameTimeLine{
+text-align: center;
+color: brown;
+font-size: 110%;
+border-bottom: thin dotted brown;
+padding:13px 0px 20px 0px;
 }
